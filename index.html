@@ -1,16 +1,127 @@
 <!doctype html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>网站正常运行测试</title>
-<style>
-body {
-  font-family: system-ui, sans-serif;
-  background: #0f172a;
-  color: #e5e7eb;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-</style>
-<h1>✅ GitHub Pages 正常运行</h1>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>阶梯英语 · 成人/少儿 · 课程+作业+游戏+社区</title>
+  <link rel="stylesheet" href="css/style.css?v=1" />
+</head>
+<body>
+  <div id="toast"></div>
+
+  <!-- 学习伙伴 -->
+  <div id="buddy" class="hidden" aria-live="polite">
+    <div id="buddyHeader">
+      <div id="buddyAvatar">🦊</div>
+      <strong>小狐</strong>
+      <button id="buddyClose" aria-label="关闭">×</button>
+    </div>
+    <div id="buddyText">Hi! 我是你的学习伙伴。</div>
+  </div>
+
+  <header class="header container">
+    <div class="brand">
+      <span class="logo">🧩</span>
+      <div>
+        <h1>Ladder English</h1>
+        <p class="tag">分级 · 作业 · 小游戏 · 社区互动</p>
+      </div>
+    </div>
+    <nav class="nav">
+      <button data-goto="home">🏠 首页</button>
+      <button data-goto="courses">📚 课程</button>
+      <button data-goto="game">🎮 游戏</button>
+      <button data-goto="community">🤝 社区</button>
+      <select id="lang">
+        <option value="zh">中文</option>
+        <option value="en">English</option>
+      </select>
+      <select id="ttsRate">
+        <option value="0.85">🎧 慢速</option>
+        <option value="1.0" selected>🎧 正常</option>
+        <option value="1.15">🎧 稍快</option>
+      </select>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- 首页 -->
+    <section id="home" class="card">
+      <span class="badge">🐣 零基础友好 · 成人/中小学生</span>
+      <h2>阶梯式英语：轻松学、玩着学</h2>
+      <p>每课都有小练习，词汇自动进入小游戏复习；进度保存在你的设备本地。</p>
+      <div class="cta">
+        <button class="btn" data-goto="courses">马上开始</button>
+        <button class="btn secondary" data-goto="game">先玩会儿</button>
+      </div>
+      <div class="prog">
+        <div>⭐ 总体进度</div>
+        <div class="progress"><div id="overall"></div></div>
+        <ul id="activity" class="list"></ul>
+      </div>
+    </section>
+
+    <!-- 课程列表 -->
+    <section id="courses" class="hidden">
+      <div class="section-title">
+        <h2>📚 课程阶梯</h2>
+        <div class="tabs">
+          <button class="tab active" data-track="adult">成人 60 课</button>
+          <button class="tab" data-track="kids">少儿 60 课</button>
+        </div>
+      </div>
+      <div id="ladder" class="grid"></div>
+    </section>
+
+    <!-- 单课 -->
+    <section id="lesson" class="hidden">
+      <div class="section-title">
+        <h2 id="lessonTitle">📖 Lesson</h2>
+        <div class="actions">
+          <button class="btn secondary" id="readAll">🎧 整课朗读</button>
+          <button class="btn secondary" data-goto="courses">⬅️ 返回课程</button>
+        </div>
+      </div>
+      <div id="lessonContent" class="grid"></div>
+      <h3>📝 练习</h3>
+      <div id="exercise"></div>
+      <button class="btn" id="submitEx">✅ 提交答案</button>
+    </section>
+
+    <!-- 游戏 -->
+    <section id="game" class="hidden card">
+      <div class="section-title">
+        <h2>🧩 Word Match</h2>
+        <div class="pill">⏱ <span id="timer">60</span>s · 得分：<strong id="score">0</strong></div>
+      </div>
+      <p class="small">点左侧英文，再点右侧中文/英文释义。</p>
+      <div id="gameArea" class="item"></div>
+      <div class="cta">
+        <button class="btn" id="restart">🔄 重新开始</button>
+        <button class="btn secondary" id="speakAll">🎧 读一遍单词</button>
+      </div>
+    </section>
+
+    <!-- 社区（本地演示版） -->
+    <section id="community" class="hidden">
+      <div class="section-title">
+        <h2>🤝 社区互动（本机演示）</h2>
+        <div class="small">可发文字/录音；他人点赞评论在真实环境需后台，这里先在本机演示。</div>
+      </div>
+      <div class="card">
+        <textarea id="postText" rows="3" placeholder="分享你的学习心得或今日打卡…"></textarea>
+        <div class="cta">
+          <button class="btn" id="recBtn">🎙️ 录音</button>
+          <button class="btn" id="postBtn">发布</button>
+        </div>
+        <audio id="preview" controls class="hidden"></audio>
+      </div>
+      <div id="feed"></div>
+    </section>
+  </main>
+
+  <footer class="footer">© 2025 Ladder English · <a href="#" id="export">导出进度</a></footer>
+
+  <script src="js/app.js?v=1"></script>
+</body>
+</html>
