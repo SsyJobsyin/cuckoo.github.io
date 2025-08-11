@@ -1,28 +1,65 @@
-<!doctype html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>JS 自检页</title>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英语学习平台</title>
 <style>
-  body{font-family:system-ui,Arial;margin:0;background:#0f172a;color:#e5e7eb}
-  .card{background:#111827;border:1px solid #26324a;border-radius:12px;padding:14px;margin:16px}
-  button{padding:10px 14px;border:0;border-radius:10px;background:#7c5cff;color:#fff;cursor:pointer}
-  .ok{color:#34d399}.bad{color:#f87171}
+  body { font-family: Arial, sans-serif; margin: 0; background: #f0f4f8; }
+  header { background: #4CAF50; color: white; padding: 10px; text-align: center; }
+  nav { display: flex; justify-content: center; background: #388E3C; }
+  nav button { padding: 10px 20px; margin: 5px; border: none; background: #66BB6A; color: white; cursor: pointer; border-radius: 5px; }
+  nav button:hover { background: #81C784; }
+  main { padding: 20px; text-align: center; }
+  .hidden { display: none; }
+  .course-list button { display: block; margin: 10px auto; padding: 10px 20px; background: #FF9800; color: white; border: none; border-radius: 5px; }
+  .course-list button:hover { background: #FFB74D; }
 </style>
+</head>
+<body>
 
-<h1 style="margin:16px">🔧 自检页</h1>
-<div class="card">
-  <div>① 页面加载时间：<span id="ts">—</span></div>
-  <div>② JS 运行状态：<strong id="js">检测中…</strong></div>
-  <div>③ 按钮计数测试：<button id="btn">点我</button> 计数=<span id="n">0</span></div>
-</div>
+<header>
+  <h1>英语学习平台</h1>
+  <p>适合成年人 & 中小学生 & 零基础学员</p>
+</header>
+
+<nav>
+  <button onclick="showPage('home')">首页</button>
+  <button onclick="showPage('adult')">成人课程</button>
+  <button onclick="showPage('kids')">少儿课程</button>
+</nav>
+
+<main id="home">
+  <h2>欢迎来到英语学习平台</h2>
+  <p>点击上方按钮开始学习吧！</p>
+</main>
+
+<main id="adult" class="hidden">
+  <h2>成人课程示例</h2>
+  <div class="course-list">
+    <button onclick="startLesson('成人课程 1')">📖 成人课程 1</button>
+    <button onclick="startLesson('成人课程 2')">📖 成人课程 2</button>
+  </div>
+</main>
+
+<main id="kids" class="hidden">
+  <h2>少儿课程示例</h2>
+  <div class="course-list">
+    <button onclick="startLesson('少儿课程 1')">📖 少儿课程 1</button>
+    <button onclick="startLesson('少儿课程 2')">📖 少儿课程 2</button>
+  </div>
+</main>
 
 <script>
-  // 显示时间
-  document.getElementById('ts').textContent = new Date().toLocaleString();
-  // 声明 JS 正常
-  document.getElementById('js').innerHTML = '<span class="ok">✅ 已运行</span>';
-  // 绑定事件
-  let i=0; document.getElementById('btn').onclick=()=>{ i++; document.getElementById('n').textContent=i; };
+function showPage(pageId) {
+  document.querySelectorAll('main').forEach(el => el.classList.add('hidden'));
+  document.getElementById(pageId).classList.remove('hidden');
+}
+
+function startLesson(name) {
+  alert("开始学习：" + name);
+}
 </script>
 
-
+</body>
+</html>
