@@ -1,65 +1,154 @@
-<!DOCTYPE html>
-<html lang="zh">
+<!doctype html>
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>英语学习平台</title>
-<style>
-  body { font-family: Arial, sans-serif; margin: 0; background: #f0f4f8; }
-  header { background: #4CAF50; color: white; padding: 10px; text-align: center; }
-  nav { display: flex; justify-content: center; background: #388E3C; }
-  nav button { padding: 10px 20px; margin: 5px; border: none; background: #66BB6A; color: white; cursor: pointer; border-radius: 5px; }
-  nav button:hover { background: #81C784; }
-  main { padding: 20px; text-align: center; }
-  .hidden { display: none; }
-  .course-list button { display: block; margin: 10px auto; padding: 10px 20px; background: #FF9800; color: white; border: none; border-radius: 5px; }
-  .course-list button:hover { background: #FFB74D; }
-</style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>阶梯英语 · 成人/少儿 · 120课 · 作业 · 游戏 · 社区</title>
+<link rel="stylesheet" href="css/style.css?v=peppa1"/>
 </head>
-<body>
+<body data-theme="adult"><!-- 默认成人主题，切换少儿会自动换色 -->
+<div id="toast"></div>
 
-<header>
-  <h1>英语学习平台</h1>
-  <p>适合成年人 & 中小学生 & 零基础学员</p>
+<!-- 学习伙伴：成人=猫头鹰；少儿=小狐狸 -->
+<div id="buddy" class="hidden" aria-live="polite">
+  <div id="buddyHeader">
+    <div id="buddyAvatar">🦉</div>
+    <strong id="buddyName">学伴</strong>
+    <button id="buddyClose" aria-label="关闭">×</button>
+  </div>
+  <div id="buddyText">Hi! 我是你的学习伙伴。</div>
+</div>
+
+<header class="header container">
+  <div class="brand">
+    <span class="logo">🧩</span>
+    <div>
+      <h1>Ladder English</h1>
+      <p class="tag">分级 · 120课 · 作业 · 小游戏 · 社区互动</p>
+    </div>
+  </div>
+  <nav class="nav">
+    <button data-goto="home">🏠 首页</button>
+    <button data-goto="courses">📚 课程</button>
+    <button data-goto="game">🎮 游戏</button>
+    <button data-goto="community">🤝 社区</button>
+    <button data-goto="circles">👥 学习圈</button>
+    <select id="trackSel" title="学习轨道">
+      <option value="adult">成人（商务）</option>
+      <option value="kids">少儿（卡通）</option>
+    </select>
+    <select id="ttsRate" title="发音速度">
+      <option value="0.85">🎧 慢速</option>
+      <option value="1.0" selected>🎧 正常</option>
+      <option value="1.15">🎧 稍快</option>
+    </select>
+  </nav>
 </header>
 
-<nav>
-  <button onclick="showPage('home')">首页</button>
-  <button onclick="showPage('adult')">成人课程</button>
-  <button onclick="showPage('kids')">少儿课程</button>
-</nav>
+<main class="container">
+  <!-- 首页 -->
+  <section id="home" class="card">
+    <span class="badge">🐣 零基础友好 · 成人/中小学生</span>
+    <h2>阶梯式英语：轻松学、玩着学</h2>
+    <p>每课都有小练习，词汇自动进入小游戏复习；进度、帖子和学习圈都保存在你的设备本地。</p>
+    <div class="cta">
+      <button class="btn" data-goto="courses">马上开始</button>
+      <button class="btn secondary" data-goto="game">先玩会儿</button>
+    </div>
 
-<main id="home">
-  <h2>欢迎来到英语学习平台</h2>
-  <p>点击上方按钮开始学习吧！</p>
+    <div class="dash">
+      <div class="pill">🔥 连续学习：<strong id="streak">0</strong> 天</div>
+      <div class="pill">🏅 徽章：<span id="badges"></span></div>
+    </div>
+
+    <div class="prog">
+      <div>⭐ 总体进度</div>
+      <div class="progress"><div id="overall"></div></div>
+      <ul id="activity" class="list"></ul>
+    </div>
+  </section>
+
+  <!-- 课程列表 -->
+  <section id="courses" class="hidden">
+    <div class="section-title">
+      <h2>📚 课程阶梯</h2>
+      <div class="tabs">
+        <button class="tab" data-track="adult">成人 60 课</button>
+        <button class="tab" data-track="kids">少儿 60 课</button>
+      </div>
+    </div>
+    <div id="ladder" class="grid"></div>
+  </section>
+
+  <!-- 单课 -->
+  <section id="lesson" class="hidden">
+    <div class="section-title">
+      <h2 id="lessonTitle">📖 Lesson</h2>
+      <div class="actions">
+        <button class="btn secondary" id="readAll">🎧 整课朗读</button>
+        <button class="btn secondary" data-goto="courses">⬅️ 返回课程</button>
+      </div>
+    </div>
+    <div id="lessonContent" class="grid"></div>
+    <h3>📝 练习</h3>
+    <div id="exercise"></div>
+    <button class="btn" id="submitEx">✅ 提交答案</button>
+  </section>
+
+  <!-- 游戏 -->
+  <section id="game" class="hidden card">
+    <div class="section-title">
+      <h2>🧩 Word Match</h2>
+      <div class="pill">⏱ <span id="timer">60</span>s · 得分：<strong id="score">0</strong></div>
+    </div>
+    <p class="small">点左侧英文，再点右侧中文/英文释义；单词来自你已完成的课程。</p>
+    <div id="gameArea" class="item"></div>
+    <div class="cta">
+      <button class="btn" id="restart">🔄 重新开始</button>
+      <button class="btn secondary" id="speakAll">🎧 读一遍单词</button>
+    </div>
+  </section>
+
+  <!-- 社区（本机演示） -->
+  <section id="community" class="hidden">
+    <div class="section-title">
+      <h2>🤝 社区互动</h2>
+      <div class="small">先用本机存储演示：发帖（文字/录音）、点赞、评论、转发。接后台后可共享到所有用户。</div>
+    </div>
+    <div class="card">
+      <textarea id="postText" rows="3" placeholder="分享你的学习心得或今日打卡…"></textarea>
+      <div class="cta">
+        <button class="btn" id="recBtn">🎙️ 录音</button>
+        <button class="btn" id="postBtn">发布</button>
+      </div>
+      <audio id="preview" controls class="hidden"></audio>
+    </div>
+    <div id="feed"></div>
+  </section>
+
+  <!-- 学习圈/互相监督 -->
+  <section id="circles" class="hidden">
+    <div class="section-title">
+      <h2>👥 学习圈（互相监督）</h2>
+      <div class="small">创建或加入学习圈，每天打卡，圈内点赞评论，周榜激励。</div>
+    </div>
+    <div class="card">
+      <input id="circleName" placeholder="输入学习圈名称，如：早起背单词圈"/>
+      <button class="btn" id="createCircle">创建</button>
+      <select id="circleSel"></select>
+      <button class="btn secondary" id="joinCircle">加入</button>
+    </div>
+    <div class="card">
+      <button class="btn" id="checkin">✅ 今日打卡</button>
+      <div id="circleBoard" class="grid"></div>
+    </div>
+  </section>
 </main>
 
-<main id="adult" class="hidden">
-  <h2>成人课程示例</h2>
-  <div class="course-list">
-    <button onclick="startLesson('成人课程 1')">📖 成人课程 1</button>
-    <button onclick="startLesson('成人课程 2')">📖 成人课程 2</button>
-  </div>
-</main>
+<footer class="footer">
+  © 2025 Ladder English · <a href="#" id="export">导出进度</a>
+</footer>
 
-<main id="kids" class="hidden">
-  <h2>少儿课程示例</h2>
-  <div class="course-list">
-    <button onclick="startLesson('少儿课程 1')">📖 少儿课程 1</button>
-    <button onclick="startLesson('少儿课程 2')">📖 少儿课程 2</button>
-  </div>
-</main>
-
-<script>
-function showPage(pageId) {
-  document.querySelectorAll('main').forEach(el => el.classList.add('hidden'));
-  document.getElementById(pageId).classList.remove('hidden');
-}
-
-function startLesson(name) {
-  alert("开始学习：" + name);
-}
-</script>
-
+<script src="js/app.js?v=peppa1"></script>
 </body>
 </html>
