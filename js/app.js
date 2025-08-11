@@ -1,5 +1,7 @@
-'use strict';
-/* ===== 工具 ===== */
+'use strict';function lower(s){
+  return typeof s === 'string' ? s.toLowerCase()
+       : String(s ?? 'topic').toLowerCase();
+}/* ===== 工具 ===== */
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},set(k,v){localStorage.setItem(k,JSON.stringify(v))}};
 function toast(m){const t=$("#toast");t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1400)}
@@ -59,22 +61,28 @@ function wordBank(zh){
   '颜色':['red','blue','green','yellow'],'动物':['cat','dog','fox','whale'],'学校与文具':['pen','book','bag','desk']};
   return m[zh] || ['learn','word','phrase','speak'];
 }
-function makeLesson(id,titleZh,words){
+function makeLesson(id, zh, en, ws){
+  zh = zh || '主题';
+  en = en || zh; // 英文标题缺失时退回中文
+  ws = Array.isArray(ws) && ws.length ? ws : ['learn','word','speak','phrase'];
+
   return {
-    id,titleZh,titleEn:'Lesson',
-    content:[
-      {type:'phrase',en:`Today's topic: ${titleZh}.`,zh:`本课主题：${titleZh}。`},
-      {type:'dialogue',lines:[
-        {speaker:'You',en:`I want to talk about ${titleZh}.`,zh:`我想聊聊${titleZh}。`},
-        {speaker:'Buddy',en:`Great! Let's start with some examples.`,zh:`太好了！我们从例子开始。`}
+    id,
+    titleZh: zh,
+    titleEn: en,
+    content: [
+      { type:'phrase',  en:`Today's topic: ${en}.`, zh:`本课主题：${zh}。` },
+      { type:'dialogue', lines:[
+        { speaker:'You',   en:`I want to talk about ${lower(en)}.`, zh:`我想聊聊${zh}。` },
+        { speaker:'Buddy', en:`Great! Let's start with examples.`,  zh:`太好了！从例子开始。` }
       ]},
-      {type:'tip',zh:`重点：${titleZh} 的高频表达与场景。`}
+      { type:'tip', zh:`重点：${zh} 的高频表达与常见场景。`, en:`Focus on high-frequency phrases.` }
     ],
-    exercise:[
-      {type:'fill',promptZh:`补全：I'd ____ a coffee, please.`,answer:'like'},
-      {type:'choice',promptZh:`哪个更与“${titleZh}”相关？`,choicesZh:[(words[0]||'hello'),'苹果'],answer:0}
+    exercise: [
+      { type:'fill',   prompt:`补全：I'd ____ a coffee, please.`, answer:'like' },
+      { type:'choice', prompt:`哪个和“${zh}”更相关？`, choices:[ ws[0] || 'hello', '苹果' ], answer:0 }
     ],
-    gameVocab:(words.length?words:['hello','team','order','phone']).map(w=>({word:w,zh:'本课词',en:'lesson word'}))
+    gameVocab: ws.map(w=>({word:w, zh:'本课词', en:'lesson word'}))
   };
 }
 const lessons={adult:{},kids:{}};
