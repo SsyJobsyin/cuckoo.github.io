@@ -113,9 +113,11 @@ function makeLesson(id, zh, en, ws){
     gameVocab: ws.map(w=>({word:w, zh:'本课词'}))
   };
 }
-const lessons={adult:{},kids:{}};
+const lessons = (window.COURSES ? window.COURSES : {adult:{},kids:{}});
+
 
 /* 自动生成 120 课 */
+if (!window.COURSES) {
 (function build(){
   adultLevels.forEach(lv=>lessons.adult[lv]=[]);
   adultTopics.forEach((t,i)=>{
@@ -244,7 +246,7 @@ const lessons={adult:{},kids:{}};
     };
   }
 })();
-
+}
 /* —— 学习伙伴 —— */
 function buddySay(text){
   const box=el('buddy'); if(!box) return;
