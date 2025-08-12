@@ -111,8 +111,13 @@ function renderHome(){
   const items=Object.values(state.progress||{}), done=items.filter(x=>x&&x.done).length, all=items.length||1;
   setWidth('overall', Math.round(done/all*100)+'%');
   // streak / badges 可按需计算；这里先静态展示
-  setText('streak', String(store.get('streak',0)));
-  setText('badges','—');
+  - setText('streak', String(store.get('streak',0)));
++ const rawStreak = store.get('streak', 0);
++ const days = asDays(rawStreak);
++ setText('streak', String(days));
++ if (typeof rawStreak !== 'number') {
++   store.set('streak', days); // 顺便存成数字
++ }
 
   const html=(state.activity||[]).slice().reverse().slice(0,8)
     .map(a=>`<li>${new Date(a.t).toLocaleString()} — ${a.msg}</li>`).join('')
