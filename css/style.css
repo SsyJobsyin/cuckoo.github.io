@@ -70,3 +70,49 @@
 
 textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:12px}
 @media (max-width:640px){.grid.cols-2,.grid.cols-3{grid-template-columns:1fr}}
+/* === Mobile 优化补丁（粘到 style.css 最底部） === */
+
+/* 防 iOS 自动放大、字体平滑 */
+html{-webkit-text-size-adjust:100%}
+body{text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+
+/* 流式字体：手机上 15–17px，平板/桌面随屏幕增大 */
+:root{
+  --fs-base: clamp(15px, 2.8vw, 17px);
+  --fs-h1: clamp(22px, 5.8vw, 30px);
+  --fs-h2: clamp(18px, 4.8vw, 24px);
+  --fs-small: clamp(12px, 3.2vw, 14px);
+}
+body{font-size:var(--fs-base); line-height:1.65}
+h1{font-size:var(--fs-h1)} h2{font-size:var(--fs-h2)}
+.small{font-size:var(--fs-small)}
+
+/* 容器与留白：贴合手机、安全区（刘海/底部 Home 指示条） */
+.container{padding:12px 16px 16px 16px}
+header.header{padding:12px 16px 8px 16px}
+footer.footer{padding:14px 16px env(safe-area-inset-bottom) 16px}
+
+/* 导航与按钮：增大触控面积、支持换行 */
+.nav{flex-wrap:wrap; gap:8px}
+.nav button,.nav select{
+  min-height:44px; padding:10px 12px; font-size:1em;
+}
+
+/* 卡片与网格：小屏单列、保证可读性 */
+.card{padding:12px; border-radius:14px}
+.grid{gap:10px}
+@media (max-width:640px){
+  .grid.cols-2,.grid.cols-3{grid-template-columns:1fr}
+}
+
+/* 表单：防止 iOS 聚焦时页面放大 */
+input,select,textarea{font-size:16px}
+
+/* 图片/视频自适应 */
+img,video{max-width:100%; height:auto}
+
+/* 单词/长链接换行，避免溢出 */
+*{word-break:break-word; overflow-wrap:anywhere}
+
+/* 进度条更粗一点，便于触控观看 */
+.progress{height:12px}
