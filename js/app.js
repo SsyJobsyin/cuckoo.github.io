@@ -113,7 +113,7 @@ function makeLesson(id, zh, en, ws){
     gameVocab: ws.map(w=>({word:w, zh:'本课词'}))
   };
 }
-const lessons = (window.COURSES ? window.COURSES : {adult:{},kids:{}});
+const lessons = (window.COURSES || {adult:{},kids:{}});
 
 
 /* 自动生成 120 课 */
