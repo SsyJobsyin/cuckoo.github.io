@@ -1,4 +1,18 @@
 /* === 小工具 & 兜底 === */
+// 工具函数区
+function setText(id, text) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = text;
+}
+
+function asDays(v) {
+  if (typeof v === 'number') return v;
+  if (v && typeof v === 'object') {
+    if (typeof v.days === 'number') return v.days;
+  }
+  const n = Number(v);
+  return Number.isFinite(n) ? n : 0;
+}
 const $  = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
 function el(id){ return document.getElementById(id); }
