@@ -15,6 +15,8 @@
   'data/adult-a0-6-10-extended.js?v=a0x3',  // 新增
   'data/adult-a1-1-10-extended.js?v=a1x1'   // 新增
 ];
+  'data/kids-1-30.js?v=full5',
+  'data/kids-31-60.js?v=full5',
   'data/kids-g1-1-10-extended.js?v=kg1*1'
 
   let i = 0;
