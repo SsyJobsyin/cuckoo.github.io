@@ -9,12 +9,15 @@
 
   // 目前只加载一包（注意版本号可改成你想要的）
   const scripts = [
-  'data/adult-1-30.js?v=full4',
-  'data/adult-31-60.js?v=full4',
-  'data/kids-1-30.js?v=full4',
-  'data/kids-31-60.js?v=full4',
-  'data/adult-a0-1-5-extended.js?v=a0x2' // ← 新增这行，且放最后
+  'data/adult-1-30.js?v=full5',
+  'data/adult-31-60.js?v=full5',
+  'data/kids-1-30.js?v=full5',
+  'data/kids-31-60.js?v=full5',
+  'data/adult-a0-1-5-extended.js?v=a0x2',   // 你已添加
+  'data/adult-a0-6-10-extended.js?v=a0x3',  // 新增
+  'data/adult-a1-1-10-extended.js?v=a1x1'   // 新增
 ];
+
 
   let i = 0;
   function loadNext() {
