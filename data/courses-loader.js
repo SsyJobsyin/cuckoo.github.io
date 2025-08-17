@@ -17,7 +17,7 @@
   'data/adult-a0-6-10-extended.js?v=a0x3',  // 新增
   'data/adult-a1-1-10-extended.js?v=a1x1'   // 新增
 ];
-
+  'data/kids-g1-1-10-extended.js?v=kg1*1'
 
   let i = 0;
   function loadNext() {
